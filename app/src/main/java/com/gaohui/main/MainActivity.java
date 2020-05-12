@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private BadgeView redDotBadgeView;
     private BadgeView redNumberBadgeView;
 
-    private String[] strArray = new String[]{"关注", "推荐", "新人必看", "卫浴攻略", "住友津贴", "新人必看", "新人必看"};
+    private String[] strArray = new String[]{"关注", "推荐", "新人必看", "卫浴攻略", "住友津贴", "新人必看"};
 
     private List<String> stringList = new ArrayList<>();
     private List<Fragment> fragmentList = new ArrayList<>();
@@ -183,10 +183,8 @@ public class MainActivity extends AppCompatActivity {
                 0, 0));
         list.add(new XImageBean("卫浴攻略", Color.parseColor("#0d5ea7"), Color.parseColor("#000000")));
         list.add(new XImageBean("住友津贴", Color.parseColor("#ff6038"), Color.parseColor("#000000")));
-        list.add(new XImageBean("新人必看", XImageBean.TEXT, XImageBean.IMAGE, "",
-                "https://img.haohaozhu.cn/Op-imageShow/9a54c305c02o0kP00q92z4z?iv=1", 0, 0, 0, 0));
-        list.add(new XImageBean("新人必看", XImageBean.IMAGE, XImageBean.TEXT, "https://img.haohaozhu.cn/Op-imageShow/601d7308002o0iP00q92z2u?iv=1",
-                "", 0, 0, Color.parseColor("#000000"), Color.parseColor("#0d5ea7")));
+        list.add(new XImageBean("新人必看", XImageBean.TEXT, XImageBean.TEXT, "", "",
+                0, 0, 0, 0));
         fragmentList.clear();
         for (int i = 0; i < list.size(); i++) {
             fragmentList.add(EmptyFragment.newInstance(i));
