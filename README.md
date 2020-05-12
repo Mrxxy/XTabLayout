@@ -4,9 +4,9 @@
 ### 支持Indicator的圆角效果
 ### 仿好好住导航条效果，支持自定义TabView，同时支持图片和文字样式
 
-仿微博导航条效果图：
+仿微博、好好住导航条效果图：
 
-![](https://raw.githubusercontent.com/JasonGaoH/XTabLayout/master/gif/xtablayout_image.gif)
+![](https://github.com/Mrxxy/XTabLayout/blob/master/gif/xtablayout_image.gif)
 
 能够自定义TabLayout宽度的效果图：
 
