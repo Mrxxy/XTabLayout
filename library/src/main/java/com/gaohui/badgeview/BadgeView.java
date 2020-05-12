@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.support.v7.widget.AppCompatTextView;
+import androidx.appcompat.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -153,7 +153,7 @@ public class BadgeView extends AppCompatTextView {
         fadeOut.setInterpolator(new AccelerateInterpolator());
         fadeOut.setDuration(200);
 
-        setBackgroundResource(R.drawable.badge_background);
+        setBackgroundResource(R.drawable.x_badge_background);
 
         isShown = false;
 
@@ -533,7 +533,7 @@ public class BadgeView extends AppCompatTextView {
         LayoutParams params = this.getLayoutParams();
         params.height = dipToPixels(radius * 2);
         params.width = dipToPixels(radius * 2);
-        setBackgroundResource(R.drawable.badge_background);
+        setBackgroundResource(R.drawable.x_badge_background);
         this.requestLayout();
 
     }

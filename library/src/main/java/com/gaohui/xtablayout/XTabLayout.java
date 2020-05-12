@@ -18,28 +18,9 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IntDef;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.annotation.StringRes;
-import android.support.v4.util.Pools;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.PointerIconCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.TextViewCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.content.res.AppCompatResources;
-import android.support.v7.widget.TooltipCompat;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -54,6 +35,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.TooltipCompat;
+import androidx.core.util.Pools;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.PointerIconCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.TextViewCompat;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.gaohui.android.code.library.R;
 
 import java.lang.annotation.Retention;
@@ -62,10 +62,10 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
-import static android.support.v4.view.ViewPager.SCROLL_STATE_DRAGGING;
-import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
-import static android.support.v4.view.ViewPager.SCROLL_STATE_SETTLING;
+import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_IDLE;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_SETTLING;
 
 /**
  * copy of { android.support.design.widget.TabLayout } <br/>
@@ -267,12 +267,12 @@ public class XTabLayout extends HorizontalScrollView {
 
         // Text colors/sizes come from the text appearance first
         @SuppressLint("CustomViewStyleable") final TypedArray ta = context.obtainStyledAttributes(mTabTextAppearance,
-                android.support.v7.appcompat.R.styleable.TextAppearance);
+                androidx.appcompat.R.styleable.TextAppearance);
         try {
             mTabTextSize = ta.getDimensionPixelSize(
-                    android.support.v7.appcompat.R.styleable.TextAppearance_android_textSize, 0);
+                    androidx.appcompat.R.styleable.TextAppearance_android_textSize, 0);
             mTabTextColors = ta.getColorStateList(
-                    android.support.v7.appcompat.R.styleable.TextAppearance_android_textColor);
+                    androidx.appcompat.R.styleable.TextAppearance_android_textColor);
         } finally {
             ta.recycle();
         }
@@ -1652,13 +1652,13 @@ public class XTabLayout extends HorizontalScrollView {
                 // If there isn't a custom view, we'll us our own in-built layouts
                 if (mIconView == null) {
                     ImageView iconView = (ImageView) LayoutInflater.from(getContext())
-                            .inflate(R.layout.layout_tab_icon, this, false);
+                            .inflate(R.layout.x_layout_tab_icon, this, false);
                     addView(iconView, 0);
                     mIconView = iconView;
                 }
                 if (mTextView == null) {
                     TextView textView = (TextView) LayoutInflater.from(getContext())
-                            .inflate(R.layout.layout_tab_text, this, false);
+                            .inflate(R.layout.x_layout_tab_text, this, false);
                     textView.setPadding(dpToPx(6),0,dpToPx(6),0);
                     addView(textView);
                     mTextView = textView;

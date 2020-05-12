@@ -36,4 +36,20 @@
         <attr name="android:layout" />
     </declare-styleable>
 
+    <declare-styleable name="XImageTab">
+        <attr name="x_imageTabSelectedTextColor" format="color" />
+        <attr name="x_imageTabSelectedTextStyle">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+        <attr name="x_imageTabTextColor" format="color" />
+        <attr name="x_imageTabTextSize" format="dimension" />
+        <attr name="x_imageTabTextStyle">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+    </declare-styleable>
+
 </resources>

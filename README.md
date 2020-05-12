@@ -1,8 +1,8 @@
 # XTabLayout
-
 ### 支持TabLayout的Indicator的width的自定义
 ### 新增Indicator的仿微博导航条效果
 ### 支持Indicator的圆角效果
+### 仿好好住导航条效果，支持自定义TabView，同时支持图片和文字样式
 
 仿微博导航条效果图：
 
@@ -52,14 +52,25 @@
     </declare-styleable>
 ```
 
-详情请见博客链接：[关于TabLayout的indicator宽度的一次探索](https://blog.csdn.net/h_gao/article/details/79784325)
+#### XImageTab的属性，支持图片和文字在不同状态下同时显示，具体请查看demo
 
-关于
---
-
-博客：[https://blog.csdn.net/H_Gao](https://blog.csdn.net/H_Gao)
-
-邮箱：532294580@qq.com
+```
+<declare-styleable name="XImageTab">
+        <attr name="x_imageTabSelectedTextColor" format="color" />
+        <attr name="x_imageTabSelectedTextStyle">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+        <attr name="x_imageTabTextColor" format="color" />
+        <attr name="x_imageTabTextSize" format="dimension" />
+        <attr name="x_imageTabTextStyle">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+    </declare-styleable>
+```
 
 License
 --

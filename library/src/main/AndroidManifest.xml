@@ -1,2 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gaohui.android.code.library" />
+    package="com.gaohui.android.code.library">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+</manifest>
