@@ -6,7 +6,7 @@
 
 仿微博导航条效果图：
 
-![](https://raw.githubusercontent.com/JasonGaoH/XTabLayout/master/gif/xtablayout.gif)
+![](https://raw.githubusercontent.com/JasonGaoH/XTabLayout/master/gif/xtablayout_image.gif)
 
 能够自定义TabLayout宽度的效果图：
 
