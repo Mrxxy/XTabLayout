@@ -15,13 +15,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.gaohui.android.code.library.R;
 
 public class XImageTab extends LinearLayout {
@@ -38,7 +39,8 @@ public class XImageTab extends LinearLayout {
     private XImageBean xImageBean;
     private boolean ivSelectedLoaded;
     private boolean ivUnSelectLoaded;
-    private int defaultHeight;
+    private int defaultHeight = dp2px(15);
+    private int maxHeight = dp2px(32);
     private boolean needInit = true;
 
     public XImageTab(Context context) {
@@ -76,7 +78,6 @@ public class XImageTab extends LinearLayout {
         ivUnSelect = rootView.findViewById(R.id.x_image_un_select);
         tvName = rootView.findViewById(R.id.x_text);
         clTab = rootView.findViewById(R.id.x_clTab);
-        defaultHeight = dp2px(32);
         addView(rootView);
         setup();
     }
@@ -105,14 +106,14 @@ public class XImageTab extends LinearLayout {
     }
 
     public void setSelected(boolean isSelected) {
-        int changeState;
+        int n;
         if (isSelected() != isSelected) {
-            changeState = 1;
+            n = 1;
         } else {
-            changeState = 0;
+            n = 0;
         }
         super.setSelected(isSelected);
-        if ((changeState == 0) && (!needInit)) {
+        if ((n == 0) && (!needInit)) {
             return;
         }
         this.needInit = false;
@@ -139,17 +140,30 @@ public class XImageTab extends LinearLayout {
                     ivSelected.setImageResource(xImageBean.getSelectedDrawable());
                 } else if (!TextUtils.isEmpty(xImageBean.getSelectedUrl()) && !ivSelectedLoaded) {
                     // load image
-                    Glide.with(this).asBitmap().load(xImageBean.getSelectedUrl()).into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull final Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                            int imageW = resource.getWidth();
-                            int imageH = resource.getHeight();
-                            float ratio = ivSelected.getHeight() * 1.0f / imageH;
-                            ivSelected.getLayoutParams().width = (int) (imageW * ratio);
-                            ivSelected.setLayoutParams(ivSelected.getLayoutParams());
-                            ivSelected.setImageBitmap(resource);
-                        }
-                    });
+                    Glide.with(this).asBitmap().load(xImageBean.getSelectedUrl())
+                            .override(Target.SIZE_ORIGINAL)
+                            .addListener(new RequestListener<Bitmap>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                    int imageW = resource.getWidth();
+                                    int imageH = resource.getHeight();
+                                    ViewGroup.LayoutParams params = ivSelected.getLayoutParams();
+                                    if (imageH > defaultHeight) {
+                                        params.height = maxHeight;
+                                    } else {
+                                        params.height = defaultHeight;
+                                    }
+                                    float ratio = params.height * 1.0f / imageH;
+                                    params.width = (int) (imageW * ratio);
+                                    ivSelected.setLayoutParams(params);
+                                    return false;
+                                }
+                            }).into(ivSelected);
                     ivSelectedLoaded = true;
                 }
             } else {
@@ -166,26 +180,30 @@ public class XImageTab extends LinearLayout {
                     ivUnSelect.setImageResource(xImageBean.getUnSelectedDrawable());
                 } else if (!TextUtils.isEmpty(xImageBean.getUnSelectedUrl()) && !ivUnSelectLoaded) {
                     // load image
-                    Glide.with(this).asBitmap().load(xImageBean.getUnSelectedUrl()).into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                            int imageW = resource.getWidth();
-                            int imageH = resource.getHeight();
-                            ViewGroup.LayoutParams params = ivUnSelect.getLayoutParams();
-                            if (imageH <= defaultHeight && imageH > 0) {
-                                params.height = imageH;
-                            } else {
-                                params.height = defaultHeight;
-                            }
-                            if (imageH <= params.height) {
-                                params.width = imageW;
-                            } else {
-                                params.width = imageW * defaultHeight / imageH;
-                            }
-                            ivUnSelect.setLayoutParams(params);
-                            ivUnSelect.setImageBitmap(resource);
-                        }
-                    });
+                    Glide.with(this).asBitmap().load(xImageBean.getUnSelectedUrl())
+                            .override(Target.SIZE_ORIGINAL)
+                            .listener(new RequestListener<Bitmap>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                    int imageW = resource.getWidth();
+                                    int imageH = resource.getHeight();
+                                    ViewGroup.LayoutParams params = ivUnSelect.getLayoutParams();
+                                    if (imageH > defaultHeight) {
+                                        params.height = maxHeight;
+                                    } else {
+                                        params.height = defaultHeight;
+                                    }
+                                    float ratio = params.height * 1.0f / imageH;
+                                    params.width = (int) (imageW * ratio);
+                                    ivUnSelect.setLayoutParams(params);
+                                    return false;
+                                }
+                            }).into(ivUnSelect);
                     ivUnSelectLoaded = true;
                 }
             }
