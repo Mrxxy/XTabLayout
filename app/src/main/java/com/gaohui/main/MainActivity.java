@@ -193,7 +193,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(tabAdapter);
         tabLayoutSix.setupWithViewPager(viewPager);
         for (int i = 0; i < list.size(); i++) {
-            XImageTab imageTab = new XImageTab(this).setData(list.get(i), i == 1 ? 12f : 9f);
+            XImageTab imageTab = new XImageTab(this).setImageLoader(new GlideImageLoader());
+            imageTab.setData(list.get(i), i == 1 ? 12f : 9f);
             tabLayoutSix.getTabAt(i).setCustomView(imageTab);
         }
     }

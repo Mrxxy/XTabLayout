@@ -16,7 +16,8 @@
 - 添加x_tabIndicatorAnimation来控制是否支持类似微博的导航条动效，默认false不支持
 - 添加x_tabIndicatorRoundRect来控制Indicator下划线的圆角效果，默认false没有圆角
 - 支持在Tab上加入红点和红点数字
-
+- 支持在Tab上显示图片或者文字，可同时在两种状态下显示不同样式
+- 使用XImageTab时，需自定义ImageLoader
 
 > 在对比几种修改TabLayout的Indicator的width的方法后，决定采用修改源码的方法来实现Indicator 宽度的自定义。（主要因为两种反射版本会压缩Tab边距的方式。）
 
@@ -70,6 +71,46 @@
             <flag name="italic" value="2" />
         </attr>
     </declare-styleable>
+```
+#### 参考代码
+
+更多使用，请下载demo参看源代码
+
+1. 使用 `XImageTab` 时，你需要先继承 `XTabImageLoader` 这个接口，实现其中方法，以`Glide`为例
+```java
+public class GlideImageLoader implements XTabImageLoader {
+
+    @Override
+    public void displayImage(Context context, String path, ImageView imageView, int size, final RequestCallback requestCallback) {
+        Glide.with(context).asBitmap().load(path)
+                .override(size)
+                .addListener(new RequestListener<Bitmap>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                        if (requestCallback != null)
+                            requestCallback.onResourceReady(resource.getWidth(), resource.getHeight());
+                        return false;
+                    }
+                }).into(imageView);
+    }
+
+}
+```
+
+2. 再动态创建 `XImageTab` 实例后，第一时间设置`setImageLoader(ImageLoader)`
+```java
+XImageTab imageTab = new XImageTab(this).setImageLoader(new GlideImageLoader());
+imageTab.setData(list.get(i), i == 1 ? 12f : 9f);
+```
+
+3. 敬请享用
+```java
+xTabLayout.getTabAt(i).setCustomView(imageTab);
 ```
 
 License

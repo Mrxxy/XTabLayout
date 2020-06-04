@@ -3,7 +3,6 @@ package com.gaohui.image;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -18,12 +17,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.gaohui.android.code.library.R;
+import com.gaohui.loader.XTabImageLoader;
 
 public class XImageTab extends LinearLayout {
 
@@ -42,6 +37,8 @@ public class XImageTab extends LinearLayout {
     private int defaultHeight = dp2px(15);
     private int maxHeight = dp2px(32);
     private boolean needInit = true;
+
+    private XTabImageLoader imageLoader;
 
     public XImageTab(Context context) {
         this(context, null);
@@ -95,13 +92,17 @@ public class XImageTab extends LinearLayout {
                 new int[]{-android.R.attr.state_selected}}, new int[]{selectTextColor, textColor});
     }
 
-    public XImageTab setData(XImageBean xImageBean, float paddingSize) {
+    public void setData(XImageBean xImageBean, float paddingSize) {
         this.xImageBean = xImageBean;
         this.needInit = true;
         if (clTab != null) {
             clTab.setPadding(dp2px(paddingSize), 0, dp2px(paddingSize), 0);
             setup();
         }
+    }
+
+    public XImageTab setImageLoader(XTabImageLoader XTabImageLoader) {
+        this.imageLoader = XTabImageLoader;
         return this;
     }
 
@@ -140,30 +141,21 @@ public class XImageTab extends LinearLayout {
                     ivSelected.setImageResource(xImageBean.getSelectedDrawable());
                 } else if (!TextUtils.isEmpty(xImageBean.getSelectedUrl()) && !ivSelectedLoaded) {
                     // load image
-                    Glide.with(this).asBitmap().load(xImageBean.getSelectedUrl())
-                            .override(Target.SIZE_ORIGINAL)
-                            .addListener(new RequestListener<Bitmap>() {
+                    imageLoader.displayImage(getContext(), xImageBean.getSelectedUrl(), ivSelected,
+                            Integer.MIN_VALUE, new XTabImageLoader.RequestCallback() {
                                 @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                                    return false;
-                                }
-
-                                @Override
-                                public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                                    int imageW = resource.getWidth();
-                                    int imageH = resource.getHeight();
+                                public void onResourceReady(int imageWidth, int imageHeight) {
                                     ViewGroup.LayoutParams params = ivSelected.getLayoutParams();
-                                    if (imageH > defaultHeight) {
+                                    if (imageHeight > defaultHeight) {
                                         params.height = maxHeight;
                                     } else {
                                         params.height = defaultHeight;
                                     }
-                                    float ratio = params.height * 1.0f / imageH;
-                                    params.width = (int) (imageW * ratio);
+                                    float ratio = params.height * 1.0f / imageHeight;
+                                    params.width = (int) (imageWidth * ratio);
                                     ivSelected.setLayoutParams(params);
-                                    return false;
                                 }
-                            }).into(ivSelected);
+                            });
                     ivSelectedLoaded = true;
                 }
             } else {
@@ -180,30 +172,21 @@ public class XImageTab extends LinearLayout {
                     ivUnSelect.setImageResource(xImageBean.getUnSelectedDrawable());
                 } else if (!TextUtils.isEmpty(xImageBean.getUnSelectedUrl()) && !ivUnSelectLoaded) {
                     // load image
-                    Glide.with(this).asBitmap().load(xImageBean.getUnSelectedUrl())
-                            .override(Target.SIZE_ORIGINAL)
-                            .listener(new RequestListener<Bitmap>() {
+                    imageLoader.displayImage(getContext(), xImageBean.getUnSelectedUrl(), ivUnSelect,
+                            Integer.MIN_VALUE, new XTabImageLoader.RequestCallback() {
                                 @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                                    return false;
-                                }
-
-                                @Override
-                                public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                                    int imageW = resource.getWidth();
-                                    int imageH = resource.getHeight();
+                                public void onResourceReady(int imageWidth, int imageHeight) {
                                     ViewGroup.LayoutParams params = ivUnSelect.getLayoutParams();
-                                    if (imageH > defaultHeight) {
+                                    if (imageHeight > defaultHeight) {
                                         params.height = maxHeight;
                                     } else {
                                         params.height = defaultHeight;
                                     }
-                                    float ratio = params.height * 1.0f / imageH;
-                                    params.width = (int) (imageW * ratio);
+                                    float ratio = params.height * 1.0f / imageHeight;
+                                    params.width = (int) (imageWidth * ratio);
                                     ivUnSelect.setLayoutParams(params);
-                                    return false;
                                 }
-                            }).into(ivUnSelect);
+                            });
                     ivUnSelectLoaded = true;
                 }
             }
