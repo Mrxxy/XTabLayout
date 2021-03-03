@@ -1,17 +1,17 @@
 # XTabLayout
-### 支持TabLayout的Indicator的width的自定义
-### 新增Indicator的仿微博导航条效果
-### 支持Indicator的圆角效果
-### 仿好好住导航条效果，支持自定义TabView，同时支持图片和文字样式
+## 功能
+1. 支持TabLayout的Indicator的width的自定义
+2. 新增Indicator的仿微博导航条效果
+3. 支持Indicator的圆角效果
+4. 仿好好住导航条效果，支持自定义TabView，同时支持图片和文字样式
 
-仿微博、好好住导航条效果图：
+### 仿微博、好好住导航条效果图：
+<img src="https://github.com/Mrxxy/XTabLayout/blob/master/gif/xtablayout_image.gif" width="360">
 
-![](https://github.com/Mrxxy/XTabLayout/blob/master/gif/xtablayout_image.gif)
+### 能够自定义TabLayout宽度的效果图：
+<img src="./gif/xtablayout_num.png" width="360">
 
-能够自定义TabLayout宽度的效果图：
-
-![](./gif/xtablayout_num.png)
-
+## 使用
 - 添加x_tabIndicatorWidth来支持TabLayout的Indicator的width的自定义，默认宽度28dp
 - 添加x_tabIndicatorAnimation来控制是否支持类似微博的导航条动效，默认false不支持
 - 添加x_tabIndicatorRoundRect来控制Indicator下划线的圆角效果，默认false没有圆角
